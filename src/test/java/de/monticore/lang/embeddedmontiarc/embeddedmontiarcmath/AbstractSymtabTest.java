@@ -25,6 +25,7 @@ import java.nio.file.Paths;
 import de.monticore.ModelingLanguageFamily;
 import de.monticore.io.paths.ModelPath;
 import de.monticore.java.lang.JavaDSLLanguage;
+import de.monticore.lang.embeddedmontiarc.LogConfig;
 import de.monticore.lang.embeddedmontiarc.embeddedmontiarc._symboltable.EmbeddedMontiArcLanguage;
 import de.monticore.lang.embeddedmontiarc.embeddedmontiarcmath._symboltable.EmbeddedMontiArcMathLanguage;
 import de.monticore.lang.monticar.stream._symboltable.StreamLanguage;
@@ -46,6 +47,8 @@ public class AbstractSymtabTest {
             mp.addEntry(Paths.get(m));
         }
         GlobalScope scope = new GlobalScope(mp, fam);
+
+        LogConfig.init();
         return scope;
     }
 }
