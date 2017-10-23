@@ -110,8 +110,6 @@ public class SymtabTest extends AbstractSymtabTest {
     ComponentSymbol a2 = symTab.<ComponentSymbol>resolve("test.LookUpTest", ComponentSymbol.KIND).orElse(null);
     assertNotNull(a2);
 
-
-
     ComponentInstanceSymbol a3 = symTab.<ComponentInstanceSymbol>resolve("test.LookUpTest.look1",ComponentInstanceSymbol.KIND).orElse(null);
     assertNotNull(a3);
     Log.debug(a3.toString(),"info");

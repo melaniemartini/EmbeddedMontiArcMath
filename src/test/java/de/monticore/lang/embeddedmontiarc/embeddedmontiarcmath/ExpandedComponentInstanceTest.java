@@ -21,9 +21,16 @@
 package de.monticore.lang.embeddedmontiarc.embeddedmontiarcmath;
 
 import de.monticore.lang.embeddedmontiarc.embeddedmontiarc._symboltable.ExpandedComponentInstanceSymbol;
+import de.monticore.lang.embeddedmontiarc.embeddedmontiarc._symboltable.UnitNumberExpressionSymbol;
+import de.monticore.lang.math.math._symboltable.matrix.MathMatrixArithmeticExpressionSymbol;
+import de.monticore.lang.math.math._symboltable.matrix.MathMatrixArithmeticValueSymbol;
+import de.monticore.lang.monticar.mcexpressions._ast.ASTExpression;
 import de.monticore.symboltable.Scope;
+import de.se_rwth.commons.logging.Log;
 import org.junit.Ignore;
 import org.junit.Test;
+
+import java.util.Iterator;
 
 import static org.junit.Assert.*;
 
@@ -59,6 +66,29 @@ public class ExpandedComponentInstanceTest extends AbstractSymtabTest {
         //TODO add MathStatements to ExpandedComponentInstanceSymbol and print them
     }
 
+    @Test
+    public void testLookUp() throws Exception {
+        Scope symTab = createSymTab("src/test/resources");
+        ExpandedComponentInstanceSymbol inst = symTab.<ExpandedComponentInstanceSymbol>resolve(
+                "testing.basicLookUpInstance", ExpandedComponentInstanceSymbol.KIND).orElse(null);
+        assertNotNull(inst);
+        assertEquals(3, inst.getSubComponents().size());
+        for (ASTExpression astExpression : inst.getSubComponents().iterator().next().getArguments()) {
+            Log.info(astExpression.toString(), "info:");
+        }
+        Iterator<ExpandedComponentInstanceSymbol> iterator = inst.getSubComponents().iterator();
+        MathMatrixArithmeticValueSymbol symbol1 = (MathMatrixArithmeticValueSymbol) iterator.next().getArguments().get(0).getSymbol().get();
+        MathMatrixArithmeticValueSymbol symbol2 = (MathMatrixArithmeticValueSymbol) iterator.next().getArguments().get(0).getSymbol().get();
+        MathMatrixArithmeticValueSymbol symbol3 = (MathMatrixArithmeticValueSymbol) iterator.next().getArguments().get(0).getSymbol().get();
+        assertEquals("[(0, 1, 2, 3)]", symbol1.getTextualRepresentation());
+        assertEquals("[(0, 5, 4, 4)]", symbol2.getTextualRepresentation());
+        assertEquals("[(1, 2, 7, 9)]", symbol3.getTextualRepresentation());
+        iterator = inst.getSubComponents().iterator();
+        assertEquals(1,iterator.next().getArguments().size());
+        assertEquals(1,iterator.next().getArguments().size());
+        assertEquals(1,iterator.next().getArguments().size());
+
+    }
 
 /* TODO add more tests
   @Test
